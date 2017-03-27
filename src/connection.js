@@ -7,6 +7,8 @@ const debug = require('debug')
 const log = debug('libp2p:swarm:connection')
 const setImmediate = require('async/setImmediate')
 
+const Circuit = require('libp2p-circuit')
+
 const protocolMuxer = require('./protocol-muxer')
 const plaintext = require('./plaintext')
 
@@ -55,7 +57,7 @@ module.exports = function connection (swarm) {
             }
             const b58Str = peerInfo.id.toB58String()
 
-            swarm.muxedConns[b58Str] = { muxer: muxedConn }
+            swarm.muxedConns[b58Str] = {muxer: muxedConn}
 
             if (peerInfo.multiaddrs.size > 0) {
               // with incomming conn and through identify, going to pick one
@@ -90,6 +92,11 @@ module.exports = function connection (swarm) {
       swarm.handle(identify.multicodec, (protocol, conn) => {
         identify.listener(conn, swarm._peerInfo)
       })
+    },
+
+    relay (config) {
+      swarm.relay = true
+      swarm.transport.add(Circuit.tag, new Circuit.Dialer(swarm, config))
     },
 
     crypto (tag, encrypt) {
