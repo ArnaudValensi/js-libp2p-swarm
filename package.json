@@ -55,7 +55,6 @@
     "pre-commit": "^1.2.2",
     "pull-goodbye": "0.0.1",
     "pull-stream": "^3.5.0",
-    "sinon": "^2.1.0",
     "webrtcsupport": "^2.2.0"
   },
   "dependencies": {
@@ -65,7 +64,6 @@
     "interface-connection": "~0.3.2",
     "ip-address": "^5.8.6",
     "libp2p-identify": "~0.4.0",
-    "libp2p-circuit": "~0.0.1",
     "lodash.includes": "^4.3.0",
     "multiaddr": "^2.3.0",
     "multistream-select": "~0.13.5",
