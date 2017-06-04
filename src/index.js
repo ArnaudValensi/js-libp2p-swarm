@@ -12,8 +12,6 @@ const protocolMuxer = require('./protocol-muxer')
 const plaintext = require('./plaintext')
 const assert = require('assert')
 
-const DEFAULT_TRANSPORT_PRIORITY = 1
-
 exports = module.exports = Swarm
 
 util.inherits(Swarm, EE)
@@ -70,11 +68,9 @@ function Swarm (peerInfo, peerBook) {
 
     // Only listen on transports we actually have addresses for
     return myTransports.filter((ts) => this.transports[ts].filter(myAddrs).length > 0)
-      .sort((a, b) => {
-        let pRa = a.priority || DEFAULT_TRANSPORT_PRIORITY
-        let pRb = b.priority || DEFAULT_TRANSPORT_PRIORITY
-
-        return pRa - pRb
+      // push Circuit to be the last proto to be dialed
+      .sort((a) => {
+        return a.tag && a.tag === 'Circuit' ? -1 : 0
       })
   }
 
