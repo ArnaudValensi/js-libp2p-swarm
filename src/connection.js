@@ -57,7 +57,7 @@ module.exports = function connection (swarm) {
             }
             const b58Str = peerInfo.id.toB58String()
 
-            swarm.muxedConns[b58Str] = {muxer: muxedConn}
+            swarm.muxedConns[b58Str] = { muxer: muxedConn }
 
             if (peerInfo.multiaddrs.size > 0) {
               // with incomming conn and through identify, going to pick one
